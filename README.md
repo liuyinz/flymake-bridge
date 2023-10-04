@@ -5,6 +5,7 @@ A [lsp-bridge](https://github.com/manateelazycat/lsp-bridge) Flymake backend for
 ## Screenshot
 
 for example, a Typescript server diagnostics:
+
 ![flymake-bridge](example-typescript.jpg)
 
 ## Usage
