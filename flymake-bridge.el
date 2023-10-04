@@ -63,18 +63,22 @@ Calls REPORT-FN directly."
            into diags
            finally (funcall report-fn diags)))
 
+(defun flymake-bridge-enabled-once ()
+  "Enable `flymake-bridge' at first calling of `lsp-bridge-diagnostic--update'."
+  (unless (memq 'flymake-bridge flymake-diagnostic-functions)
+    (setq lsp-bridge-diagnostic-enable-overlays nil)
+    (add-hook 'flymake-diagnostic-functions #'flymake-bridge nil t)
+    (add-hook 'lsp-bridge-diagnostic-update-hook #'flymake-start nil t)
+    (flymake-mode 1))
+  (remove-hook 'lsp-bridge-diagnostic-update-hook #'flymake-bridge-enabled-once t))
+
 ;;;###autoload
 (defun flymake-bridge-setup ()
   "Setup lsp-bridge-diagnostic integration with Flymake."
   (interactive)
   (if (< emacs-major-version 26)
       (error "Flymake-bridge requires Emacs 26 or later")
-    ;; TODO test whether current buffer connect to server
-    ;; test whether connectted server diagnostic is enable
-    (when lsp-bridge-enable-diagnostics
-      (add-hook 'flymake-diagnostic-functions #'flymake-bridge nil t)
-      (add-hook 'lsp-bridge-diagnostic-update-hook #'flymake-start nil t)
-      (flymake-mode))))
+    (add-hook 'lsp-bridge-diagnostic-update-hook #'flymake-bridge-enabled-once nil t)))
 
 (provide 'flymake-bridge)
 ;;; flymake-bridge.el ends here
