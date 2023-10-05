@@ -42,6 +42,10 @@
 
 (declare-function acm-backend-lsp-position-to-point "acm-backend-lsp")
 
+(defface flymake-bridge-server
+  '((t (:foreground "violet" :bold t)))
+  "Server of current lsp-bridge as shown in the diagnostic message.")
+
 (defun flymake-bridge (report-fn &rest _args)
   "A flymake backend for `lsp-bridge-diagnostic'.
 Add this to `flymake-diagnostic-functions' to enable it.
@@ -63,8 +67,12 @@ Calls REPORT-FN directly."
               (2 :warning)
               ((3 4) :note))
             (concat (when-let ((code (plist-get diag :code)))
-                      (concat "["(number-to-string code) "] "))
-                    (plist-get diag :message)))
+                      (concat "[" (number-to-string code) "] "))
+                    (plist-get diag :message)
+                    (when-let ((server (plist-get diag :server-name)))
+                      (concat " (" (propertize server 'face
+                                               'flymake-bridge-server)
+                              ")"))))
            into diags
            finally (funcall report-fn diags)))
 
