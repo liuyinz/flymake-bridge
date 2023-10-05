@@ -46,7 +46,11 @@
   "A flymake backend for `lsp-bridge-diagnostic'.
 Add this to `flymake-diagnostic-functions' to enable it.
 Calls REPORT-FN directly."
-  (cl-loop for diag in lsp-bridge-diagnostic-records
+  (cl-loop for diag in (seq-remove
+                        (lambda (x)
+                          (member (plist-get x :severity)
+                                  lsp-bridge-diagnostic-hide-severities))
+                        lsp-bridge-diagnostic-records)
            collect
            (flymake-make-diagnostic
             (current-buffer)
@@ -58,8 +62,9 @@ Calls REPORT-FN directly."
               (1 :error)
               (2 :warning)
               ((3 4) :note))
-            (concat "[" (number-to-string (plist-get diag :code))
-                    "] " (plist-get diag :message)))
+            (concat (when-let ((code (plist-get diag :code)))
+                      (concat "["(number-to-string code) "] "))
+                    (plist-get diag :message)))
            into diags
            finally (funcall report-fn diags)))
 
