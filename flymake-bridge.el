@@ -67,7 +67,9 @@ Calls REPORT-FN directly."
               (2 :warning)
               ((3 4) :note))
             (concat (when-let ((code (plist-get diag :code)))
-                      (concat "[" (number-to-string code) "] "))
+                      (concat "[" (or (and (stringp code) code)
+                                      (prin1-to-string code))
+                              "] "))
                     (plist-get diag :message)
                     (when-let ((server (plist-get diag :server-name)))
                       (concat " (" (propertize server 'face
