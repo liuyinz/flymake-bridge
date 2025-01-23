@@ -1,13 +1,13 @@
 ;;; flymake-bridge.el --- A lsp-bridge Flymake backend -*- lexical-binding: t -*-
 
-;; Copyright (C) 2023 liuyinz
+;; Copyright (C) 2023-2025 Eki Zhang
 
-;; Author: liuyinz <liuyinz95@gmail.com>
-;; Maintainer: liuyinz <liuyinz95@gmail.com>
+;; Author: Eki Zhang <liuyinz95@gmail.com>
+;; Maintainer: Eki Zhang <liuyinz95@gmail.com>
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "26.1") (lsp-bridge))
 ;; Keywords: tools
-;; Homepage: https://github.com/liuyinz/flymake-bridge
+;; Homepage: https://github.com/eki3z/flymake-bridge
 
 ;; This file is not a part of GNU Emacs.
 
