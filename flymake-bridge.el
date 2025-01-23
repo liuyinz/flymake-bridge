@@ -44,7 +44,8 @@
 
 (defface flymake-bridge-server
   '((t (:foreground "violet" :bold t)))
-  "Server of current lsp-bridge as shown in the diagnostic message.")
+  "Server of current lsp-bridge as shown in the diagnostic message."
+  :group 'flymake)
 
 (defun flymake-bridge (report-fn &rest _args)
   "A flymake backend for `lsp-bridge-diagnostic'.
